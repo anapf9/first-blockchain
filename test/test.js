@@ -32,9 +32,16 @@ describe ('Inbox', () => {
     assert.ok((inbox.options.address))
   });
 
+  // toda vez que fizermos um deploy uma instancia do contrato nos teremos uma mensagem default setada
   it('has a default message', async () => {
     const message = await inbox.methods.message().call();
     assert.equal(message, 'Hi there!')
   });
 
+  it('can change de message', async () => {
+    // usamos sempre o inbox.methods sempre que quisermos pegar ou modificar algum valor
+    await inbox.methods.setMessage('CHANGE').send({ from: accounts[0] });
+    const message = await inbox.methods.message().call();
+    assert.equal(message, 'CHANGE');
+  })
 });
